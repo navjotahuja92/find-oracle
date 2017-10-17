@@ -42,7 +42,7 @@ function printResponse(response) {
 var options = {
     hostname: 'namefinder.us.oracle.com',
     port: 80,
-    path: '/ws/lookup?&q=' + process.argv[2],
+    path: '/ws/lookup?&q=' + encodeURIComponent(process.argv[2]),
     method: 'GET',
     headers: {
         'Content-Type': 'application/json'
