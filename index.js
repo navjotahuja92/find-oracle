@@ -2,17 +2,26 @@
 
 const http = require('http');
 
-var limit = 3;
-if (process.argv.indexOf("-l") != -1) { //does our flag exist?
-    limit = process.argv[process.argv.indexOf("-l") + 1]; //grab the next item
-}
-
 var COLOR = {
     BOUNDARY: '\x1b[33m%s\x1b[0m',
     HEADLINE: "\x1b[42m%s\x1b[0m",
     EMPTY: "\x1b[43m%s\x1b[0m",
     ERROR: "\x1b[41m%s\x1b[0m"
 };
+
+var limit = 3;
+var limitIndex = process.argv.indexOf("-l");
+var lastIndexOfSearchKey = process.argv.length;
+if (limitIndex > -1) { //does our flag exist?
+    limit = process.argv[limitIndex + 1]; //grab the next item
+    lastIndexOfSearchKey = limitIndex;
+}
+
+var searchKeyArray = process.argv.slice(2, lastIndexOfSearchKey);
+var searchKey = searchKeyArray.join("+");
+console.log(COLOR.EMPTY, "Searching for " + searchKey);
+
+
 
 function prettyPrintContact(contact) {
     console.log(COLOR.BOUNDARY, "===============================================");
@@ -39,10 +48,11 @@ function printResponse(response) {
     }
 }
 
+
 var options = {
     hostname: 'namefinder.us.oracle.com',
     port: 80,
-    path: '/ws/lookup?&q=' + encodeURIComponent(process.argv[2]),
+    path: '/ws/lookup?&q=' + encodeURIComponent(searchKey),
     method: 'GET',
     headers: {
         'Content-Type': 'application/json'

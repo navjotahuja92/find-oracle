@@ -1,6 +1,6 @@
 {
     "name": "find-oracle",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "cli tool to find peoople in oracle",
     "main": "index.js",
     "scripts": {
